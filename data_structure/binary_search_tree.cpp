@@ -33,8 +33,8 @@ typedef struct Node
 }Node;
 
 void print_preorder(Node *node){
-    //�����k
-    if(node==NULL){
+    //走訪順序：中左右
+    if(!node){
         return;
     }
     cout << node->data << " ";
@@ -43,8 +43,8 @@ void print_preorder(Node *node){
 }
 
 void print_inorder(Node *node){
-    //�����k
-    if(node==NULL){
+    //走訪順序：左中右
+    if(!node){
         return;
     }
     print_inorder(node->left);
@@ -53,8 +53,8 @@ void print_inorder(Node *node){
 }
 
 void print_postorder(Node *node){
-    //���k��
-    if(node==NULL){
+    //走訪順序左右中
+    if(!node){
         return;
     }
     print_postorder(node->left);
@@ -65,22 +65,20 @@ void print_postorder(Node *node){
 
 
 Node* Insert(Node *node, int num){
-    if(node==NULL){
+    if(!node){
         Node *temp;
         temp = (Node *)malloc(sizeof(Node));
         temp->data = num;
         temp->left = temp->right = NULL;
         return temp;
     }
-
-    //�j�����k�`�I�A�p���񥪸`�I
     if(num > (node->data)){
         node->right = Insert(node->right, num);
     }
     else if(num < (node->data)){
         node->left = Insert(node->left, num);
     }
-    //�p�G�O�@�}�l(�Ū�)�A�N�����^��node
+    //if there is empty, then return node directly
     return node;
 }
 Node* FindMin(Node *node){
@@ -98,11 +96,9 @@ Node* Delete(Node *node, int num){
     }
     else if(num < (node->data))
         node->left = Delete(node->left, num);
-        //�p�G�n�R�����`�I�����p
     else if(num > (node->data))
         node->right = Delete(node->right, num);
     else{
-        //�Y�R�������o�{�����l�`�I�A�n�����l�`�I���l���I���̤p���`�I
         if(node->right && node->left){
             temp = FindMin(node->right);
             node->data = temp->data;
